@@ -1,2 +1,2 @@
-# pirates_portal
-A blog for professional chefs
+# eighty-six'd
+yelp for bosses
