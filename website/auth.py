@@ -6,7 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint("auth", __name__)
 
-@auth.route("/login", methods=['GET', 'POST'])
+
+@auth.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form.get("email")
@@ -24,14 +25,15 @@ def login():
             flash("Email does not exist", category="error")
     return render_template("login.html", user=current_user)
 
-@auth.route("/signup", methods=['GET', 'POST'])
+
+@auth.route("/signup", methods=["GET", "POST"])
 def sign_up():
     if request.method == "POST":
         email = request.form.get("email")
         username = request.form.get("username")
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
-    
+
         email_exists = User.query.filter_by(email=email).first()
         username_exists = User.query.filter_by(username=username).first()
         if email_exists:
@@ -45,14 +47,16 @@ def sign_up():
         elif len(password1) < 6:
             flash("Passwords is too short", category="error")
         else:
-            new_user = User(email=email, username=username, password=generate_password_hash(password1, method="sha256"))
+            new_user = User(
+                email=email,
+                username=username,
+                password=generate_password_hash(password1, method="sha256"),
+            )
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
             flash("User created")
             return redirect(url_for("views.home"))
-
-
 
     return render_template("signup.html", user=current_user)
 
