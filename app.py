@@ -7,7 +7,6 @@ from create_db import db, DB_NAME
 from models import User, Post, Comment, Like
 from views import views
 
-
 def create_app():
     app = Flask(__name__)
 
