@@ -12,7 +12,7 @@ views = Blueprint("views", __name__)
 @login_required
 def home():
     posts = Post.query.all()
-    return render_template("home.html", user=current_user, posts=posts)
+    return render_template("index.html", user=current_user, posts=posts)
 
 
 @views.route("/create-post", methods=["GET", "POST"])
@@ -115,3 +115,11 @@ def like(post_id):
             "liked": current_user.id in map(lambda x: x.author, post.likes),
         }
     )
+
+@views.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+@views.errorhandler(500)
+def internal_server_error(e):
+    return render_template("500.html"), 404
