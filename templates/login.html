@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}
+Login
+{% endblock %}
+{% block content %}
+<br/>
+<div class="shadow-lg p-3 mb-5 bg-body rounded border border-danger">
+<br/>
+<form method="POST">
+    <center>
+    <img class="img-fluid" src="static/images/login.png" alt="login">
+    </center>
+    <br/><br/>
+    {{ form.hidden_tag() }}
+
+    <div class="row">
+        <div class="col">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control") }}
+        <br/><br/>
+        </div>
+    
+    <center>
+        {{ form.submit(class="btn btn-danger") }}
+    </center>
+</div>
+</form>
+</div>
+{% endblock %}

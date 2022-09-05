@@ -1,18 +1,18 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
-from .models import Post, User, Comment, Like
-from . import db
+
+from create_db import db
+from models import Post, User, Comment, Like
 
 
 views = Blueprint("views", __name__)
-
 
 @views.route("/")
 @views.route("/home")
 @login_required
 def home():
     posts = Post.query.all()
-    return render_template("index.html", user=current_user, posts=posts)
+    return render_template("./index.html", user=current_user, posts=posts)
 
 
 @views.route("/create-post", methods=["GET", "POST"])
@@ -48,17 +48,18 @@ def delete_post(id):
     return redirect(url_for("views.home"))
 
 
-@views.route("/posts/<username>")
+@views.route("/posts/<user_id>")
 @login_required
-def posts(username):
-    user = User.query.filter_by(username=username).first()
+def posts(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    first_name = User.first_name
     if not User:
-        flash("No user with that username exists.", category="error")
+        flash("User does not exists.", category="error")
         return redirect(url_for("views.home"))
     posts = user.post
 
     return render_template(
-        "posts.html", user=current_user, posts=posts, username=username
+        "posts.html", user=current_user, posts=posts, first_name=first_name
     )
 
 
@@ -113,7 +114,7 @@ def like(post_id):
         {
             "likes": len(post.likes),
             "liked": current_user.id in map(lambda x: x.author, post.likes),
-        }
+        }, 200
     )
 
 @views.errorhandler(404)
