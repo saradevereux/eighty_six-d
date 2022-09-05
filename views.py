@@ -1,18 +1,18 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
-from .models import Post, User, Comment, Like
-from . import db
+
+from create_db import db
+from models import Post, User, Comment, Like
 
 
 views = Blueprint("views", __name__)
-
 
 @views.route("/")
 @views.route("/home")
 @login_required
 def home():
     posts = Post.query.all()
-    return render_template("index.html", user=current_user, posts=posts)
+    return render_template("../index.html", user=current_user, posts=posts)
 
 
 @views.route("/create-post", methods=["GET", "POST"])
