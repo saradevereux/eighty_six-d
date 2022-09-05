@@ -1,6 +1,7 @@
+from cgitb import text
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 class SignUpForm(FlaskForm):
@@ -15,3 +16,8 @@ class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Passowrd", validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+class CreatePostForm(FlaskForm):
+    business = StringField("Who do you want to Blast:", validators=[DataRequired()])
+    text = TextAreaField("And why: ", validators=[DataRequired()])
+    submit = SubmitField("Post")
