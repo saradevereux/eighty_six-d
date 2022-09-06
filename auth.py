@@ -55,12 +55,12 @@ def logout():
     logout_user()
     return redirect(url_for("auth.login"))
 
-@auth.route("/update-profile/<user_id>", methods=["GET", "POST"])
+@auth.route("/update-profile/<user_id>", methods=["GET", "PATCH"])
 @login_required
 def update_profile(user_id):
     user = User.query.get_or_404(user_id)
     form = UpdateProfileForm()
-    if request.method == "POST":
+    if request.method == "PATCH":
         user.first_name = request.form["first_name"]
         user.last_name = request.form["last_name"]
         user.email = request.form["email"]
