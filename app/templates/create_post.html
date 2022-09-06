@@ -9,9 +9,17 @@
     </center>
     {{ form.hidden_tag() }}
     <br/><br/>
-    {{ form.business.label(class="form-label") }}
-    {{ form.business(class="form-control") }}
-    <br/>
+    <div class="row">
+        <div class="col">
+            {{ form.business.label(class="form-label") }}
+            {{ form.business(class="form-control") }}
+        </div>
+        <div class="col">
+            {{ form.zip_code.label(class="form-label") }}
+            {{ form.zip_code(class="form-control") }}
+        </div>
+    </div>
+        <br/>
     {{ form.text.label(class="form-label") }}
     {{ form.text(class="form-control") }}
     <br/><br/>
