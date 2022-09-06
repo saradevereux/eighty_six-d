@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from db import db
-from forms import SignUpForm, LoginForm
+from forms import SignUpForm, LoginForm, UpdateProfileForm
 from models import User
 
 
@@ -54,3 +54,21 @@ def sign_up():
 def logout():
     logout_user()
     return redirect(url_for("auth.login"))
+
+@auth.route("/update-profile/<user_id>", methods=["GET", "POST"])
+@login_required
+def update_profile(user_id):
+    user = User.query.get_or_404(user_id)
+    form = UpdateProfileForm()
+    if request.method == "POST":
+        user.first_name = request.form["first_name"]
+        user.last_name = request.form["last_name"]
+        user.email = request.form["email"]
+
+        db.session.commit()
+        login_user(user, remember=True)
+        flash("Profile has been updated")
+        return redirect(url_for("views.home"))
+    
+    return render_template("update-profile.html", form=form, user=current_user)
+    

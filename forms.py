@@ -17,6 +17,12 @@ class LoginForm(FlaskForm):
     password = PasswordField("Passowrd", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
+class UpdateProfileForm(FlaskForm):
+    first_name = StringField("First Name", validators=[DataRequired()])
+    last_name = StringField("Last Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField("Update")
+
 class CreatePostForm(FlaskForm):
     business = StringField("Name of Restaurant", validators=[DataRequired()])
     text = TextAreaField("Leave Your Review", validators=[DataRequired()])

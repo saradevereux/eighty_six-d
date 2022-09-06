@@ -96,7 +96,7 @@ def delete_comment(comment_id):
     return redirect(url_for("views.home"))
 
 
-@views.route("/like-post/<post_id>", methods=["POST"])
+@views.route("/like-post/<post_id>", methods=["GET", "PATCH"])
 @login_required
 def like(post_id):
     post = Post.query.filter_by(id=post_id).first()
@@ -124,3 +124,4 @@ def page_not_found(e):
 @views.errorhandler(500)
 def internal_server_error(e):
     return render_template("500.html"), 404
+

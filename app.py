@@ -11,7 +11,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config["SECRET_KEY"] = "dev"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:password123@localhost/eightysixd"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost:5432"
     db.init_app(app)
 
     app.register_blueprint(views, url_prefix="/")
