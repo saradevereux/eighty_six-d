@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<h1 align="center">Make a Post</h1>
 
 <form method="POST">
-    <textarea name="text" id="text" class="form-control"></textarea>
-    <br />
+    <br/><br/>
     <center>
-        <button type="submit" class="btn btn-lg btn-primary">Post</button>
+        <img class="img-fluid" src="static/images/create_post.png" alt="Post your Blast">
+    </center>
+    {{ form.hidden_tag() }}
+    <br/><br/>
+    {{ form.business.label(class="form-label") }}
+    {{ form.business(class="form-control") }}
+    <br/>
+    {{ form.text.label(class="form-label") }}
+    {{ form.text(class="form-control") }}
+    <br/><br/>
+    <center>
+        <a href="/home"><button type="button" class="btn btn-md btn-secondary">Back</button></a>
+        {{ form.submit(class="btn btn-danger") }}
     </center>
 </form>
-<br>
-    <center>
-        <a href="/home"><button type="submit" class="btn btn-lg btn-secondary">Back</button></a>
-    </center>
+
 
 {% endblock %}

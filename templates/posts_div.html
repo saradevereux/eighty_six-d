@@ -2,31 +2,24 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <br/>
-<img class="img-fluid" src="static/images/blasted.png" alt="create_an_account">
-
+<center>
+<img class="img-fluid" src="static/images/logo_lg.png" alt="create_an_account">
+</center>
+<br/><br/>
+<center>
+    <a href="/create-post">
+        <button 
+            type="button" 
+            class="btn btn-danger btn-lg">Create Post</button>
+    </a>
+</center>
 <div id="posts">
 <br/>
     {% for post in posts %}
-        <div class="card border-dark">
+        <div class="card border-danger">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <a href="/posts/{{post.user.username}}">{{ post.user.username }}</a>
+                {{ post.business.upper() }}
                 <div>
-                    <!-- <span id="likes-count-{{post.id}}">
-                        {{ post.likes|length }}
-                    </span>
-                    {% if user.id in post.likes|map(attribute="author")|list %}
-                        <i
-                        class="fa-solid fa-thumbs-up" 
-                        id="like-button-{{post.id}}" 
-                        onclick="{{  url_for('views.like', post_id=post.id) }}"
-                        ></i>
-                    {% else %}
-                        <i
-                        class="fa-regular fa-thumbs-up"
-                        id="like-button-{{post.id}}" 
-                        onclick="{{  url_for('views.like', post_id=post.id) }}"
-                        ></i>
-                    {% endif %} -->
                     {% if user.id == post.author %}
                     <div class="btn-group">
                         <button 
@@ -47,14 +40,15 @@
                 <br>
                 <div class="collapse" id="comments-{{post.id}}">
                     <div class="card">
-                        <div class="card-body" id="comments-expoanded-{{post.id}}">
+                        <div class="card-body" class="container-fluid" id="comments-expoanded-{{post.id}}">
                             {% for comment in post.comments %}
                             <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <a href="/posts/{{comment.user.username}}">{{ comment.user.username }}</a>: {{ comment.text }}
-                                </div>
-                                    <div>
-                                        <small class="text-muted">{{ comment.date_created }}</small>
+                                    <div class="container-fluid bg-light text-dark">
+                                        <div>
+                                        {{ comment.text }}
+                                        
+                                        </div>
+                                        <small align="right" class="text-muted">{{ comment.date_created }}</small>
                                         {% if user.id == comment.author or user.id == post.author %}
                                             <div class="btn-group">
                                                 <button 
@@ -70,35 +64,31 @@
                                         {% endif %}
                                     </div>
                             </div>
+                            <br/>
                             {% endfor %}
                         </div>
                     </div>
                 </div>
+                
                 <p class="card-text">
-                {% if post.comments|length > 0 %}
-                    <a data-bs-toggle="collapse" href="#comments-{{post.id}}" role="button">
-                        <small>View {{ post.comments|length }} Comments</small>
-                    </a>
-                {% else %}
-                    <small class="text-muted">No Comments</small>
-                {% endif %}
-                </p>
-                <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
-                    <input type="text" id="text" name="text" class="form-control" placeholder="Comment something" />
-                    <button type="submit" class="btn btn-primary">Comment</button>
-
-                </form>
+                    {% if post.comments|length > 0 %}
+                        <a data-bs-toggle="collapse" href="#comments-{{post.id}}" role="button">
+                            <small>View {{ post.comments|length }} Comments</small>
+                        </a>
+                    {% else %}
+                        <small class="text-muted">No Comments</small>
+                    {% endif %}
+                    </p>
+                    <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
+                        <input type="text" id="text" name="text" class="form-control" placeholder="Comment something" />
+                        <button type="submit" class="btn btn-secondary">Comment</button>
+            
+                    </form>
             </div>
             <div class="card-footer text-muted">{{ post.date_created }}</div> 
         </div>
         <br>
+        
     {% endfor %}
 </div>
-{% block footer %}
-    <center>
-        <a href="/create-post">
-            <button type="button" class="btn btn-primary btn-lg">Create a Post</button>
-        </a>
-    </center>
-{% endblock %}
 {% endblock %}

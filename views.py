@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 
-from create_db import db
+from db import db
+from forms import CreatePostForm
 from models import Post, User, Comment, Like
 
 
@@ -18,18 +19,17 @@ def home():
 @views.route("/create-post", methods=["GET", "POST"])
 @login_required
 def create_post():
+    form = CreatePostForm()
     if request.method == "POST":
-        text = request.form.get("text")
-
+        text = form.text.data
         if not text:
             flash("Post cannot be empty", category="error")
         else:
-            post = Post(text=text, author=current_user.id)
+            post = Post(text=text, author=current_user.id, business= form.business.data)
             db.session.add(post)
             db.session.commit()
-            flash("Post created!", category="success")
             return redirect(url_for("views.home"))
-    return render_template("create_post.html", user=current_user)
+    return render_template("create_post.html", form=form, user=current_user)
 
 
 @views.route("/delete-post/<id>")
@@ -96,7 +96,7 @@ def delete_comment(comment_id):
     return redirect(url_for("views.home"))
 
 
-@views.route("/like-post/<post_id>", methods=["POST"])
+@views.route("/like-post/<post_id>", methods=["GET", "PATCH"])
 @login_required
 def like(post_id):
     post = Post.query.filter_by(id=post_id).first()
@@ -124,3 +124,4 @@ def page_not_found(e):
 @views.errorhandler(500)
 def internal_server_error(e):
     return render_template("500.html"), 404
+

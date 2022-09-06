@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Update Profile{% endblock %}
+<div class="p-3 mb-2 bg-secondary text-white">.bg-secondary>
+{% block content %}
+<br/>
+<div class="shadow-lg p-3 mb-5 bg-body rounded border border-danger">
+    <br/><br/>
+<form action="/update-profile/{{ user.id }}" method="POST">
+    <center>
+        <img class="img-fluid" src="/static/images/update_profile.png" alt="update-profile">
+    <br/><br/><br/><br/>
+    </center>
+
+    {{ form.hidden_tag() }}
+
+    {{ form.email.label(class="form-label") }}
+    {{ form.email(class="form-control", value=user.email) }}
+    <br/>
+    <div class="row">
+        <div class="col">
+            {{ form.first_name.label(class="form-label") }}
+            {{ form.first_name(class="form-control", value=user.first_name) }}
+        </div>
+        
+        <div class="col">
+            {{ form.last_name.label(class="form-label") }}
+            {{ form.last_name(class="form-control", value=user.last_name) }}
+        </div>
+    </div>
+    <br/><br/>
+    <center>
+        {{ form.submit(class="btn btn-danger") }}
+    </center>
+</form>
+</div>
+{% endblock %}
