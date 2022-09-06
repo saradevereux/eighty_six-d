@@ -2,11 +2,15 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <br/>
-<img class="img-fluid" src="static/images/blasted.png" alt="create_an_account">
+<center>
+<img class="img-fluid" src="static/images/logo_lg.png" alt="create_an_account">
+</center>
 <br/><br/>
 <center>
     <a href="/create-post">
-        <button type="button" class="btn btn-danger btn-lg">Make a Blast</button>
+        <button 
+            type="button" 
+            class="btn btn-danger btn-lg">Create Post</button>
     </a>
 </center>
 <div id="posts">
@@ -82,8 +86,6 @@
                     </form>
             </div>
             <div class="card-footer text-muted">{{ post.date_created }}</div> 
-            <br/>
-            
         </div>
         <br>
         

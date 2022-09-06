@@ -3,7 +3,7 @@ from flask_login import LoginManager
 from os import path
 
 from auth import auth
-from create_db import db, DB_NAME
+from db import db, DB_NAME
 from models import User, Post, Comment, Like
 from views import views
 
@@ -11,11 +11,11 @@ def create_app():
     app = Flask(__name__)
 
     app.config["SECRET_KEY"] = "dev"
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:password123@localhost/eightysixd"
     db.init_app(app)
 
     app.register_blueprint(views, url_prefix="/")
-    app.register_blueprint(auth, url_prefix="/")
+    app.register_blueprint(auth, url_prefix="/") 
 
 
     create_database(app)

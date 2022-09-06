@@ -18,6 +18,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Submit")
 
 class CreatePostForm(FlaskForm):
-    business = StringField("Who do you want to Blast:", validators=[DataRequired()])
-    text = TextAreaField("And why: ", validators=[DataRequired()])
+    business = StringField("Name of Restaurant", validators=[DataRequired()])
+    text = TextAreaField("Leave Your Review", validators=[DataRequired()])
     submit = SubmitField("Post")
