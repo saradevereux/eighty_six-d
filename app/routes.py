@@ -1,16 +1,24 @@
-
-from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, current_user
 
 from app import db
-from app.forms import SignUpForm, UpdateProfileForm, CreatePostForm
-from .models import Business, Post, User, Comment, Like
+from app.forms import UpdateProfileForm, CreatePostForm
+from .models import Business, Post, User, Comment
 
+# TODO revist database queries for efficiency
+# TODO add like functionality
+# TODO add template and route for all posts by user
+# TODO add admin page
+# TODO add loggin and tracing
+# TODO add search by Busineess
+# TODO add search by zip code
+# TODO split up blueprints by page as more features get added
+
+# Create Blueprint for main functionality of blog
 main_bp = Blueprint(
-    'main_bp', __name__,
-    template_folder='templates',
-    static_folder='static'
+    "main_bp", __name__, template_folder="templates", static_folder="static"
 )
+
 
 @main_bp.route("/update-profile/<user_id>", methods=["GET", "POST"])
 @login_required
@@ -26,14 +34,13 @@ def update_profile(user_id):
             user.first_name = form.first_name.data
             user.last_name = form.last_name.data
             user.email = form.email.data
-
             db.session.commit()
             login_user(user, remember=True)
             flash("Profile has been updated")
             return redirect(url_for("main_bp.home"))
     return render_template("update-profile.html", form=form, user=current_user)
-    
-    
+
+
 @main_bp.route("/")
 @main_bp.route("/home")
 @login_required
@@ -47,24 +54,28 @@ def home():
 def create_post():
     form = CreatePostForm()
     if request.method == "POST":
-        business = db.session.query(Business).filter(Business.name == form.business.data.upper()).filter(Business.zip_code == form.zip_code.data).first()
-        print(business)
+        business = (
+            db.session.query(Business)
+            .filter(Business.name == form.business.data.upper())
+            .filter(Business.zip_code == form.zip_code.data)
+            .first()
+        )
         if not business:
             post = Post(text=form.text.data, author=current_user.id)
-            business = Business(name=form.business.data.upper(), zip_code=form.zip_code.data)
+            business = Business(
+                name=form.business.data.upper(), zip_code=form.zip_code.data
+            )
             business.posts.append(post)
             db.session.add(post)
             db.session.add(business)
             db.session.commit()
         else:
-            post = Post(text=form.text.data, author=current_user.id, post_business=business.id)
-            
+            post = Post(
+                text=form.text.data, author=current_user.id, post_business=business.id
+            )
             db.session.add(post)
             db.session.commit()
 
-        print(business.name)
-        print(business.zip_code)
-        print(business.id)
         return redirect(url_for("main_bp.home"))
     return render_template("create-post.html", form=form, user=current_user)
 
@@ -160,4 +171,3 @@ def delete_comment(comment_id):
 # @main_bp.errorhandler(500)
 # def internal_server_error():
 #     return make_response(render_template("500.html"), 404)
-
