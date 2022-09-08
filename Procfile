@@ -1,1 +1,1 @@
-web: gunicorn app:app.runner:application
+web: gunicorn app:wsgi:app
