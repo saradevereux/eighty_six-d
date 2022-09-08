@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!-- Page Title and create post button -->
+<br/>
+<center>
+<img class="img-fluid" src="static/images/logo_lg.png" alt="create_an_account">
+</center>
+<br/><br/>
+<center>
+    <a href="/create-post">
+        <button 
+            type="button" 
+            class="btn btn-danger btn-lg">Create Post</button>
+    </a>
+</center>
+
+<!-- Loop through posts return restaurant name, post text, comments, date created, newest first -->
+{% for post in posts %}
+<div id="posts">
+    <br/>
+    <div class="card border-danger">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            {{ post.business_posts.name }}
+            <div>
+                {% if user.id == post.author %}
+                    <div class="btn-group">
+                        <button 
+                            type="button" 
+                            class="btn btn-sm btn-light dropdown-toggle" 
+                            data-bs-toggle="dropdown"
+                        ></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/delete-post/{{post.id}}" class="dropdown-item">Delete</a></li>
+                                <!-- TODO: Edit Post route -->
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card-text">{{ post.text }}</div>
+            <br/>
+            <br/>
+            <div class="collapse card" id="comments-{{post.id}}">
+                    <div class="card-body container-fluid bg-light" id="comments-expanded-{{post.id}}">
+                        {% for comment in post.comments %}
+                            <div>{{ comment.text }}</div>
+                            <div><small align="right" class="text-muted">{{ comment.date_created.strftime("%B %d, %Y") }}</small></div>
+                            {% if user.id == comment.author or user.id == post.author %}
+                            <div><small align="left" ><a href="/delete-comment/{{ comment.id}}" class="text-danger">Delete</a></small></div>
+                            {% endif %}
+                            <br/>
+                        {% endfor %}
+                    </div>
+            </div>
+            <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
+                <input type="text" id="text" name="text" class="form-control" placeholder="Comment something" />
+                <button type="submit" class="btn btn-secondary">Comment</button>
+            </form>
+            <br/>
+        </div>
+        <div class="card-footer text-muted">{{ post.date_created.strftime("%B %d,%Y") }}</div> 
+    </div>
+    {% if post.comments|length > 0 %}
+        <p class="card-text">
+            <a data-bs-toggle="collapse" href="#comments-{{post.id}}" role="button">
+                <small>View {{ post.comments|length }} Comments</small>
+            </a>
+    {% else %}
+        <small class="text-muted">No Comments</small>
+    </p>
+    {% endif %}
+</div>
+{% endfor %}
+<br/>
+{% endblock %}
