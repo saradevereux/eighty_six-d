@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, flash, request, session, url_for
 from flask_login import login_required, logout_user, current_user, login_user
 from .forms import LoginForm, SignUpForm
-from .models import db, User, check_password_hash
+from .models import db, User
 from . import login_manager
 
 
@@ -40,7 +40,7 @@ def sign_up():
                     first_name=form.first_name.data,
                     last_name=form.last_name.data,
                 )
-                user.set_password(form.password.data)
+                new_user.set_password(form.password.data)
                 db.session.add(new_user)
                 db.session.commit()
                 login_user(new_user, remember=True)

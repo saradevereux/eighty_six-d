@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, TextAreaField
+from wtforms import StringField, SubmitField, PasswordField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 class SignUpForm(FlaskForm):
@@ -26,3 +26,4 @@ class CreatePostForm(FlaskForm):
     zip_code = StringField("Resaurant zip code", validators=[DataRequired()])
     text = TextAreaField("Leave Your Review", validators=[DataRequired()])
     submit = SubmitField("Post")
+    
