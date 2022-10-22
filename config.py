@@ -21,5 +21,5 @@ class Config:
     COMPRESSOR_DEBUG = environ.get("COMPRESSOR_DEBUG")
 
     # Flask-SQLAlchemy
-    SQLALCHEMY_DATABASE_URI = subprocess.run(["heroku", "config:get", "DATABASE_URL", "--app", "eightysixd"],capture_output=True)
+    SQLALCHEMY_DATABASE_URI = environ('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
