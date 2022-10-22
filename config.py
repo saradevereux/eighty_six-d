@@ -1,3 +1,5 @@
+import subprocess
+
 from os import environ, path
 from dotenv import load_dotenv
 
@@ -19,7 +21,5 @@ class Config:
     COMPRESSOR_DEBUG = environ.get("COMPRESSOR_DEBUG")
 
     # Flask-SQLAlchemy
-    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL') or "postgresql://postgres:password@localhost:5432/postgres"
-    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_DATABASE_URI = subprocess.run(["heroku", "config:get", "DATABASE_URL", "--app", "eightysixd"],capture_output=True)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
