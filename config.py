@@ -20,5 +20,8 @@ class Config:
     TEMPLATES_FOLDER = "templates"
 
     # Flask-SQLAlchemy
-    SQLALCHEMY_DATABASE_URI = environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = environ["DATABASE_URL"]  # or other relevant config var
+    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
+    #  = environ['DATABASE_URL']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
