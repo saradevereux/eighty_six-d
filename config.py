@@ -12,14 +12,14 @@ class Config:
 
     # General Config
     SECRET_KEY = "this is a secret"
-    FLASK_APP = environ.get("FLASK_APP")
-    FLASK_ENV = environ.get("FLASK_ENV")
+    FLASK_APP = environ["FLASK_APP"]
+    FLASK_ENV = environ["FLASK_ENV"]
 
     # Static Assets
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
-    COMPRESSOR_DEBUG = environ.get("COMPRESSOR_DEBUG")
+    COMPRESSOR_DEBUG = environ["COMPRESSOR_DEBUG"]
 
     # Flask-SQLAlchemy
-    SQLALCHEMY_DATABASE_URI = environ('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = environ['DATABASE_URL']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
