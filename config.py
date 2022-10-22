@@ -12,7 +12,7 @@ class Config:
 
     # General Config
     SECRET_KEY = "this is a secret"
-    FLASK_APP = environ["FLASK_APP"]
+    # FLASK_APP = environ["FLASK_APP"]
     FLASK_ENV = environ["FLASK_ENV"]
 
     # Static Assets
